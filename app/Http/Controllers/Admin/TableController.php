@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Table\TableStoreRequest;
+use App\Http\Requests\Table\TableUpdateRequest;
 use App\Models\Table;
 use Illuminate\Http\Request;
 
@@ -52,24 +53,27 @@ class TableController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Table $table)
     {
-        //
+        return view('admin.tables.edit', compact("table"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TableUpdateRequest $request, Table $table)
     {
-        //
+        $table->update($request->validated());
+
+        return to_route('admin.tables.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Table $table)
     {
-        //
+        $table->delete();
+        return to_route('admin.tables.index');
     }
 }
