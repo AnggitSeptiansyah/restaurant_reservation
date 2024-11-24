@@ -39,7 +39,6 @@
                         <tbody>
                             @foreach ($reservations as $reservation)
                                 
-                            @endforeach
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $reservation->first_name }} {{ $reservation->last_name }}
@@ -54,12 +53,13 @@
                                     {{ $reservation->reservation_date }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    FF001
+                                    {{ $reservation->table->name }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ $reservation->guest_number }}
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
