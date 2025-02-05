@@ -12,7 +12,7 @@ class Reservation extends Model
     protected $fillable = ['first_name', 'last_name', 'email', 'phone_number', 'reservation_date', 'table_id', 'guest_number'];
 
     protected $dates = [
-        'reservation_date'
+        'reservation_date' => 'datetime'
     ];
 
     public function table()

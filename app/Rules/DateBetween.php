@@ -19,7 +19,7 @@ class DateBetween implements ValidationRule
         $lastDate = Carbon::now()->addWeek();
 
         if(!($value >= now() && !$value <= $lastDate)){
-            $fail('Please choose the date between');
+            $fail('Please choose the date between a week from now');
         }
     }
 }

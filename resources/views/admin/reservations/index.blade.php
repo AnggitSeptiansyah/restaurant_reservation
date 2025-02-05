@@ -52,11 +52,31 @@
                                 <td class="px-6 py-4">
                                     {{ $reservation->reservation_date }}
                                 </td>
+                                @if ($reservation->table->name)
                                 <td class="px-6 py-4">
                                     {{ $reservation->table->name }}
                                 </td>
+                                @else
+                                <td class="px-6 py-4">
+                                    Table does not exist
+                                </td>
+                                @endif
                                 <td class="px-6 py-4">
                                     {{ $reservation->guest_number }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex">
+                                        <a href="{{ route('admin.reservations.edit', $reservation->id) }}" class="px-4 py-2 bg-green-500 hover:bg-green-700 rounded-lg text-white">Edit</a>
+                                        <form 
+                                            class="px-4 py-2 ml-2 bg-red-500 hover:bg-red-700 rounded-lg text-white" 
+                                            method="POST" 
+                                            action="{{ route('admin.reservations.destroy', $reservation->id) }}" 
+                                            onSubmit="return confirm('Are you sure ?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit">Delete</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

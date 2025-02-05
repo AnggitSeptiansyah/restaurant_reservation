@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\TableStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservation\ReservationStoreRequest;
 use App\Models\Reservation;
 use App\Models\Table;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
@@ -24,7 +26,7 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        $tables = Table::all();
+        $tables = Table::where('status', TableStatus::Avaliable)->get();
         return view('admin.reservations.create', compact('tables'));
     }
 
@@ -33,9 +35,21 @@ class ReservationController extends Controller
      */
     public function store(ReservationStoreRequest $request)
     {
+        $table = Table::findOrFail($request->table_id);
+        if($request->guest_number > $table->guest_number) {
+            return back()->with('warning', 'Please choose the table based on guests.');
+        }
+
+        $request_date = Carbon::parse($request->reservation_date);
+        foreach ($table->reservations as $reservation) {
+            if(Carbon::parse($reservation->reservation_date)->format('Y-m-d') == $request_date->format('Y-m-d')) {
+                return back()->with('warning', 'This table already reserved for this date');
+            }
+        }
+
         Reservation::create($request->validated());
 
-        return to_route('admin.reservations.index');
+        return to_route('admin.reservations.index')->with('success', 'Reservation created successfully');
     }
 
     /**
@@ -49,24 +63,41 @@ class ReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Reservation $reservation)
     {
-        //
+        $tables = Table::where('status', TableStatus::Avaliable)->get();
+        return view('admin.reservations.edit', compact('reservation', 'tables'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ReservationStoreRequest $request, Reservation $reservation)
     {
-        //
+        $table = Table::findOrFail($request->table_id);
+        if($request->guest_number > $table->guest_number) {
+            return back()->with('warning', 'Please choose the table based on guests.');
+        }
+
+        $request_date = Carbon::parse($request->reservation_date);
+        $reservations = $table->reservations()->where('id', '!=', $reservation->id)->get();
+        foreach ($reservations as $reservation) {
+            if(Carbon::parse($reservation->reservation_date)->format('Y-m-d') == $request_date->format('Y-m-d')) {
+                return back()->with('warning', 'This table already reserved for this date');
+            }
+        }
+
+        $reservation->update($request->validated());
+
+        return to_route('admin.reservations.index')->with('success', 'Reservation updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Reservation $reservation)
     {
-        //
+        $reservation->delete();
+        return to_route('admin.reservations.index')->with('success', 'Reservation deleted successfully');
     }
 }
