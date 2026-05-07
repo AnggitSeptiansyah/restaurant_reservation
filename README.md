@@ -28,19 +28,18 @@
 
 ### Homepage
 ![Dashboard](docs/images/homepage.png)
-*Dashboard dengan statistik lengkap dan grafik*
 
 ### Menus
 ![Book Management](docs/images/menus.png)
-*Manage data buku*
+
 
 ### Reservation
 ![Book Form](docs/images/reservation_1.png)
-*Form penambahan buku*
+
 
 ### Admin Reservation
 ![Categories Management](docs/images/admin_reservation.png)
-*Manage data kategori*
+
 
 ---
 
