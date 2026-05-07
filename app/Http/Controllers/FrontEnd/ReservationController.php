@@ -16,7 +16,11 @@ class ReservationController extends Controller
     public function stepOne(Request $request)
     {
         $reservation = $request->session()->get('reservation');
-        $reservation_date_value = Carbon::parse($reservation->reservation_date)->format('Y-m-d\TH:i:s');
+        // $reservation_date_value = Carbon::parse($reservation->reservation_date)->format('Y-m-d\TH:i:s');
+        // Hanya hitung jika reservation tidak null
+        $reservation_date_value = $reservation 
+        ? Carbon::parse($reservation->reservation_date)->format('Y-m-d\TH:i:s')
+        : '';
         $min_date = Carbon::today();
         $max_date = Carbon::now()->addWeek();
         return view('frontend.reservations.step-one', compact('reservation', 'min_date', 'max_date', 'reservation_date_value'));

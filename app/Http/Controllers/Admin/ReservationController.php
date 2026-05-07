@@ -15,10 +15,19 @@ class ReservationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $reservations = Reservation::all();
-        return view('admin.reservations.index', compact('reservations'));
+        $search = $request->input('search');
+
+        $reservations = Reservation::query()
+        ->when($search, function ($query, $search) {
+            return $query->where('first_name', 'like', "%{$search}%")
+                         ->orWhere('last_name', 'like', "%{$search}%")
+                         ->orWhere('email', 'like', "%{$search}%");
+        })
+        ->get();
+
+    return view('admin.reservations.index', compact('reservations'));
     }
 
     /**

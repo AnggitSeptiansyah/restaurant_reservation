@@ -21,7 +21,13 @@
                                     Name
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    Picture
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     Desciption
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Action
                                 </th>
                             </tr>
                         </thead>
