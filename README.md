@@ -12,7 +12,6 @@
 
 ### ✨ Fitur Utama
 
-- 🏥 **Authentication System**
   - Reservasi Meja – Pelanggan dapat memilih meja dan melakukan pemesanan secara online
   - Variasi Menu – Menampilkan daftar makanan dan minuman lengkap dengan kategori
   - Autentikasi Pengguna – Login dan registrasi menggunakan sistem otentikasi Laravel (Blade) bawaan.
