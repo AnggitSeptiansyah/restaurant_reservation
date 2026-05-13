@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use Database\Factories\CategoryFactory;
+use Database\Factories\MenuFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,6 +22,10 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $this->call(Admin::class);
+        $this->call([
+            AdminSeeder::class,
+            CategoryFactory::class,
+            MenuFactory::class,
+        ]);
     }
 }
